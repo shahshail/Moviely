@@ -1,7 +1,8 @@
 const express = require('express')
 const app = express() // store express object in app reference variable
+const logger = require('./logger')
 app.use(express.json());
-
+app.use(logger)
 const genres = [
   { id: 1, name: 'Action' },  
   { id: 2, name: 'Horror' },  
