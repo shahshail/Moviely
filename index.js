@@ -1,11 +1,14 @@
-const express = require('express')
+const express = require('express');
 const app = express() // store express object in app reference variable
-const logger = require('./logger')
+const logger = require('./logger');
+const helmet = require('helmet');
+const morgan = require('morgan');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true})); //Key=value&key=value we can read uncoded url
 app.use(express.static('public')) //we can use it to serve static class
-
+app.use(helmet())
+app.use(morgan())
 app.use(logger);
 
 const genres = [
