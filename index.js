@@ -1,11 +1,17 @@
 const express = require('express')
 const app = express() // store express object in app reference variable
 const logger = require('./logger')
+
 app.use(express.json());
-app.use(logger)
+app.use(express.urlencoded({extended: true})); //Key=value&key=value we can read uncoded url
+app.use(express.static('public')) //we can use it to serve static class
+
+app.use(logger);
+
 const genres = [
   { id: 1, name: 'Action' },  
   { id: 2, name: 'Horror' },  
+
   { id: 3, name: 'Romance' },  
 ];
 app.get('/api/genres', (req, res) => {
