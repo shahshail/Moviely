@@ -8,10 +8,16 @@ const genres = require('./routes/genres');
 const express = require('express');
 const app = express();
 
+app.set('view engine','pug');
+app.set('views','./views'); // default location where all the views are stored
+
 app.use(helmet)
 app.use(express.json());
 app.use('/api/genres', genres);
 
+app.get('/',(req, res) => {
+    res.render('index', {title : 'Moviely', message: 'Hello world!'})
+})
 
 if(app.get('env') == 'development')// To see the current working environment
 {
