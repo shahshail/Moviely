@@ -1,4 +1,6 @@
 const Joi = require('joi');
+const startupDebugger = require('debug')('app:staruup')
+const cbDebugger = require('debug')('app:db')
 const config = require('config');
 const helmet = require('helmet')
 const morgan = require('morgan');
@@ -16,6 +18,7 @@ if(app.get('env') == 'development')// To see the current working environment
     app.use(morgan('tiny'));
     console.log(`Current environment is: ${app.get('env')}`)
     console.log("Morgan Enabled...")
+    startupDebugger('Startup Debugger...')
 }
 
 const port = process.env.PORT || 9898;
