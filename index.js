@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Joi = require('joi');
+
 const startupDebugger = require('debug')('app:staruup')
 const cbDebugger = require('debug')('app:db')
 const config = require('config');
@@ -16,7 +16,7 @@ mongoose.connect('mongodb://localhost/moviely')
 .then(() => console.log('connected to MongoDB...'))
 .catch(err => console.error('Could not connect to MongoDB...'))
 
-app.use(helmet)
+app.use(helmet())
 app.use(express.json());
 app.use('/api/genres', genres);
 

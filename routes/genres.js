@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 const express = require('express');
 const router = express.Router();
-
-const Genre = new mongoose.model('Genre', new mongoose.Schema({
+const Joi = require('joi');
+const Genre =  mongoose.model('Genre', new mongoose.Schema({
   name : {
     type : String,
     required: true,
@@ -17,38 +17,36 @@ router.get('/', async (req, res) => {
   res.send(genres);
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const { error } = validateGenre(req.body); 
   if (error) return res.status(400).send(error.details[0].message);
 
-  let genre = new Genre()({name: req.body.name});
+  let genre = new Genre({name: req.body.name});
   genre = await genre.save();
   res.send(genre);
 });
 
-router.put('/:id', (req, res) => {
-  const genre = genres.find(c => c.id === parseInt(req.params.id));
-  if (!genre) return res.status(404).send('The genre with the given ID was not found.');
-
+router.put('/:id',async (req, res) => {
   const { error } = validateGenre(req.body); 
   if (error) return res.status(400).send(error.details[0].message);
-  
-  genre.name = req.body.name; 
-  res.send(genre);
-});
 
-router.delete('/:id', (req, res) => {
-  const genre = genres.find(c => c.id === parseInt(req.params.id));
+ const genre = await Genre.findByIdAndUpdate(req.param.id, { name : req.body.name},{
+    new : true
+  });
+
   if (!genre) return res.status(404).send('The genre with the given ID was not found.');
-
-  const index = genres.indexOf(genre);
-  genres.splice(index, 1);
-
   res.send(genre);
 });
 
-router.get('/:id', (req, res) => {
-  const genre = genres.find(c => c.id === parseInt(req.params.id));
+router.delete('/:id',async (req, res) => {
+ const genre =  await Genre.findByIdAndRemove(req.param.id);
+  if (!genre) return res.status(404).send('The genre with the given ID was not found.');
+  res.send(genre);
+});
+
+router.get('/:id', async (req, res) => {
+
+ const genre = await Genre.findById(req.param.id);
   if (!genre) return res.status(404).send('The genre with the given ID was not found.');
   res.send(genre);
 });
