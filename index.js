@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
-
 const startupDebugger = require('debug')('app:staruup')
 const cbDebugger = require('debug')('app:db')
 const config = require('config');
 const helmet = require('helmet')
 const morgan = require('morgan');
 const genres = require('./routes/genres');
+const customer = require('./routes/customers'); 
 const express = require('express');
 const app = express();
 
