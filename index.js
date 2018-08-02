@@ -5,6 +5,8 @@ const config = require('config');
 const helmet = require('helmet')
 const morgan = require('morgan');
 const genres = require('./routes/genres');
+const customers = require('./routes/customers');
+const movies = require('./routes/movies');
 const customer = require('./routes/customers'); 
 const express = require('express');
 const app = express();
@@ -16,9 +18,12 @@ mongoose.connect('mongodb://localhost/moviely')
 .then(() => console.log('connected to MongoDB...'))
 .catch(err => console.error('Could not connect to MongoDB...'))
 
+
 app.use(helmet())
 app.use(express.json());
 app.use('/api/genres', genres);
+app.use('/api/customers', customers);
+app.use('/api/movies', movies);
 
 app.get('/',(req, res) => {
     res.render('index', {title : 'Moviely', message: 'Hello world!'})
